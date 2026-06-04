@@ -1,0 +1,2358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TERRA JCB — Premium Equipment Rental</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --gold-dark: #8B6914;
+    --earth: #1A1208;
+    --earth-mid: #2C1F0A;
+    --earth-light: #3D2E12;
+    --green: #2D5A27;
+    --green-bright: #4A8A3E;
+    --green-neon: #7DC96E;
+    --steel: #8A9BA8;
+    --white: #F8F4EC;
+    --cream: #EDE5CC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--earth);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: all 0.15s ease;
+    opacity: 0.6;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(26,18,8,0.98), transparent);
+    backdrop-filter: blur(6px);
+  }
+  .logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .logo span { color: var(--white); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--cream); font-size: 0.8rem; letter-spacing: 0.15em;
+    text-decoration: none; text-transform: uppercase; font-weight: 500;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold); color: var(--earth);
+    padding: 0.6rem 1.8rem; font-size: 0.75rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    font-weight: 600; text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Outfit', sans-serif;
+  }
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* Hero */
+  .hero {
+    height: 100vh; position: relative;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      linear-gradient(135deg, rgba(26,18,8,0.85) 0%, rgba(26,18,8,0.4) 60%, rgba(26,18,8,0.7) 100%),
+      url('https://images.unsplash.com/photo-1581093458791-9f3c3ea58087?w=1800&q=85') center/cover no-repeat;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(26,18,8,0.9) 40%, transparent 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 4rem; max-width: 720px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 0.4rem 1rem; margin-bottom: 1.5rem;
+    font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--green-neon); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 7.5rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  h1 .gold { color: var(--gold); }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--cream); font-weight: 300;
+    max-width: 440px; line-height: 1.7;
+    margin: 1.5rem 0 2.5rem;
+    border-left: 2px solid var(--gold);
+    padding-left: 1rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--earth);
+    padding: 0.9rem 2.5rem; font-size: 0.85rem;
+    letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700;
+    text-decoration: none; transition: all 0.3s; border: none; cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::after {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold-light); opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .btn-primary:hover::after { opacity: 1; }
+  .btn-outline {
+    border: 1px solid rgba(248,244,236,0.4); color: var(--white);
+    padding: 0.9rem 2.5rem; font-size: 0.85rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    text-decoration: none; transition: all 0.3s;
+    background: transparent;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .scroll-hint {
+    position: absolute; bottom: 2rem; left: 50%;
+    transform: translateX(-50%); z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(248,244,236,0.5);
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollDown 2s infinite;
+  }
+  @keyframes scrollDown {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* Stats Strip */
+  .stats-strip {
+    background: var(--gold);
+    padding: 1.2rem 4rem;
+    display: flex; gap: 0; justify-content: space-around;
+    align-items: center;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem; color: var(--earth);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--earth-light);
+    font-weight: 600;
+  }
+  .stat-divider {
+    width: 1px; height: 40px;
+    background: rgba(26,18,8,0.2);
+  }
+
+  /* Section */
+  section { padding: 6rem 4rem; }
+  .section-tag {
+    font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.8rem; display: block;
+  }
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1; letter-spacing: 0.03em;
+    color: var(--white);
+  }
+  h2 .gold { color: var(--gold); }
+
+  /* Fleet Section */
+  .fleet { background: var(--earth-mid); }
+  .fleet-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3.5rem;
+  }
+  .fleet-desc {
+    max-width: 380px; color: var(--steel);
+    font-size: 0.95rem; line-height: 1.7;
+    border-left: 2px solid var(--gold); padding-left: 1rem;
+  }
+  .fleet-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+  }
+  .fleet-card {
+    position: relative; overflow: hidden;
+    height: 420px; cursor: pointer;
+    background: var(--earth-light);
+  }
+  .fleet-card.featured { grid-column: span 2; }
+  .fleet-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease;
+    filter: saturate(0.8);
+  }
+  .fleet-card:hover img { transform: scale(1.05); filter: saturate(1); }
+  .fleet-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,18,8,0.95) 0%, rgba(26,18,8,0.2) 60%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem;
+    transition: background 0.4s;
+  }
+  .fleet-card:hover .fleet-card-overlay {
+    background: linear-gradient(to top, rgba(26,18,8,0.98) 0%, rgba(26,18,8,0.5) 70%, rgba(26,18,8,0.1) 100%);
+  }
+  .fleet-tag {
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.4rem;
+  }
+  .fleet-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; color: var(--white); line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .fleet-spec {
+    font-size: 0.8rem; color: var(--steel);
+    margin-bottom: 1rem;
+  }
+  .fleet-price {
+    font-size: 0.75rem; color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+  .fleet-price strong {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; margin-right: 0.3rem;
+  }
+  .eco-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(45,90,39,0.3); border: 1px solid rgba(125,201,110,0.3);
+    padding: 0.3rem 0.7rem; font-size: 0.6rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--green-neon); margin-bottom: 0.5rem;
+    width: fit-content;
+  }
+  .eco-badge::before {
+    content: '🌿'; font-size: 0.7rem;
+  }
+
+  /* Eco Section */
+  .eco {
+    background: var(--earth);
+    position: relative; overflow: hidden;
+  }
+  .eco::before {
+    content: ''; position: absolute;
+    right: -200px; top: -200px;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,90,39,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .eco-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  .eco-visual {
+    position: relative;
+  }
+  .eco-main-img {
+    width: 100%; height: 500px; object-fit: cover;
+    filter: saturate(0.9);
+  }
+  .eco-accent-img {
+    position: absolute;
+    bottom: -2rem; right: -2rem;
+    width: 200px; height: 200px;
+    object-fit: cover;
+    border: 4px solid var(--earth);
+    box-shadow: 0 0 0 1px var(--gold);
+  }
+  .eco-metrics {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--earth-light);
+    margin-top: 3rem;
+  }
+  .eco-metric {
+    background: var(--earth-mid);
+    padding: 1.5rem; text-align: center;
+  }
+  .eco-metric-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; color: var(--green-neon);
+  }
+  .eco-metric-label {
+    font-size: 0.7rem; color: var(--steel);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+  .eco-points { list-style: none; margin-top: 2rem; }
+  .eco-points li {
+    padding: 0.9rem 0; border-bottom: 1px solid rgba(248,244,236,0.06);
+    display: flex; align-items: center; gap: 1rem;
+    font-size: 0.9rem; color: var(--cream); line-height: 1.5;
+  }
+  .eco-points li::before {
+    content: ''; flex-shrink: 0;
+    width: 6px; height: 6px;
+    background: var(--green-neon); border-radius: 50%;
+  }
+
+  /* Video Section */
+  .video-section {
+    padding: 0; position: relative; height: 70vh;
+    overflow: hidden; display: flex; align-items: center; justify-content: center;
+  }
+  .video-section video,
+  .video-fallback {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.45) saturate(0.7);
+  }
+  .video-fallback {
+    background:
+      linear-gradient(135deg, rgba(26,18,8,0.6), rgba(45,90,39,0.3)),
+      url('https://img.youtube.com/vi/Xgi-7LfI4sQ/maxresdefault.jpg') center/cover no-repeat;
+  }
+  .video-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    max-width: 700px; padding: 2rem;
+  }
+  .video-content h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 0.95;
+    margin-bottom: 1.5rem;
+  }
+  .play-btn {
+    width: 80px; height: 80px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 2rem auto 0;
+    cursor: pointer; transition: all 0.3s;
+    background: rgba(201,168,76,0.1);
+  }
+  .play-btn:hover { background: var(--gold); transform: scale(1.1); }
+  .play-btn svg { margin-left: 4px; }
+
+  /* Scenarios / Projects */
+  .scenarios { background: var(--earth-mid); }
+  .scenarios-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; margin-top: 3.5rem;
+  }
+  .scenario-card {
+    background: var(--earth-light);
+    padding: 2rem; position: relative;
+    border-top: 2px solid transparent;
+    transition: border-color 0.3s, transform 0.3s;
+    overflow: hidden;
+  }
+  .scenario-card::before {
+    content: attr(data-num);
+    position: absolute; right: 1.5rem; top: 1rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem; color: rgba(201,168,76,0.06);
+    line-height: 1;
+  }
+  .scenario-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+  }
+  .scenario-icon {
+    width: 48px; height: 48px; background: rgba(201,168,76,0.1);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.2rem; font-size: 1.4rem;
+  }
+  .scenario-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; color: var(--white);
+    letter-spacing: 0.05em; margin-bottom: 0.7rem;
+  }
+  .scenario-card p {
+    font-size: 0.85rem; color: var(--steel);
+    line-height: 1.7; margin-bottom: 1.2rem;
+  }
+  .scenario-link {
+    font-size: 0.7rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .scenario-link::after { content: '→'; }
+
+  /* Process */
+  .process { background: var(--earth); }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; margin-top: 4rem;
+    position: relative;
+  }
+  .process-steps::before {
+    content: ''; position: absolute;
+    top: 2rem; left: 10%; right: 10%;
+    height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .process-step { padding: 0 1.5rem; text-align: center; position: relative; }
+  .step-num {
+    width: 4rem; height: 4rem;
+    border: 1px solid var(--gold);
+    background: var(--earth);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; color: var(--gold);
+    margin: 0 auto 1.5rem;
+  }
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem; color: var(--white);
+    margin-bottom: 0.5rem; letter-spacing: 0.05em;
+  }
+  .step-desc {
+    font-size: 0.8rem; color: var(--steel);
+    line-height: 1.6;
+  }
+
+  /* Testimonials */
+  .testimonials { background: var(--earth-mid); padding: 6rem 4rem; }
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .testi-card {
+    background: var(--earth-light); padding: 2rem;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+  .testi-card:hover { border-color: var(--gold); }
+  .testi-stars { color: var(--gold); font-size: 0.8rem; margin-bottom: 1rem; }
+  .testi-text {
+    font-size: 0.9rem; color: var(--cream);
+    line-height: 1.8; font-style: italic; margin-bottom: 1.5rem;
+  }
+  .testi-author {
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .author-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: var(--gold-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.85rem; color: var(--white);
+  }
+  .author-name { font-size: 0.85rem; font-weight: 600; color: var(--white); }
+  .author-title { font-size: 0.7rem; color: var(--steel); }
+
+  /* CTA
+  .cta-section {
+    padding: 6rem 4rem;
+    background:
+      linear-gradient(135deg, rgba(26,18,8,0.96), rgba(26,18,8,0.85)),
+      url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=85') center/cover no-repeat;
+    text-align: center;
+    position: relative; overflow: hidden;
+  } */
+
+
+  /* CTA */
+.cta-section {
+    padding: 6rem 4rem;
+    background:
+      linear-gradient(135deg, rgba(26,18,8,0.96), rgba(26,18,8,0.85)),
+      url('https://i.ytimg.com/vi/AtteRFnfvxc/maxresdefault.jpg') center center/cover no-repeat;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+
+  .cta-section::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.1) 0%, transparent 70%);
+  }
+  .cta-section h2 {
+    font-size: clamp(3rem, 6vw, 5rem);
+    max-width: 700px; margin: 1rem auto 1.5rem;
+    position: relative;
+  }
+  .cta-section p {
+    color: var(--steel); font-size: 1rem;
+    max-width: 500px; margin: 0 auto 2.5rem;
+    position: relative;
+  }
+  .cta-actions {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    position: relative;
+  }
+
+  /* Contact Form */
+  .contact { background: var(--earth-light); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1.2fr;
+    gap: 5rem; align-items: start;
+  }
+  .contact-info h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .contact-info p { color: var(--steel); line-height: 1.8; margin-bottom: 2rem; }
+  .contact-detail {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1rem; font-size: 0.9rem;
+  }
+  .contact-detail-icon {
+    width: 36px; height: 36px; background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; flex-shrink: 0;
+  }
+  .contact-detail span { color: var(--cream); }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label {
+    display: block; font-size: 0.65rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--steel); margin-bottom: 0.5rem;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%; background: var(--earth-mid);
+    border: 1px solid rgba(248,244,236,0.1);
+    color: var(--white); padding: 0.85rem 1rem;
+    font-family: 'Outfit', sans-serif; font-size: 0.9rem;
+    outline: none; transition: border-color 0.3s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+  }
+  .form-group select option { background: var(--earth-mid); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* Footer */
+  footer {
+    background: var(--earth);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 4rem; 
+  }
+  .footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand .logo { font-size: 1.6rem; display: block; margin-bottom: 1rem; }
+  .footer-tagline { font-size: 0.85rem; color: var(--steel); line-height: 1.7; max-width: 260px; }
+  .footer-col h4 {
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.6rem; }
+  .footer-col ul li a {
+    font-size: 0.85rem; color: var(--steel);
+    text-decoration: none; transition: color 0.3s;
+  }
+  .footer-col ul li a:hover { color: var(--gold); }
+  .footer-bottom {
+    border-top: 1px solid rgba(248,244,236,0.06);
+    padding-top: 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 0.75rem; color: var(--steel); }
+  .footer-cert {
+    display: flex; gap: 1rem; align-items: center;
+    font-size: 0.7rem; color: var(--green-neon);
+  }
+  .cert-badge {
+    border: 1px solid rgba(125,201,110,0.3);
+    padding: 0.3rem 0.8rem;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.8s ease forwards; }
+  .delay-1 { animation-delay: 0.15s; }
+  .delay-2 { animation-delay: 0.3s; }
+  .delay-3 { animation-delay: 0.45s; }
+
+  /* Modal Video */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.92);
+    display: none; align-items: center; justify-content: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-close {
+    position: absolute; top: 2rem; right: 2rem;
+    font-size: 2rem; color: var(--white);
+    cursor: pointer; background: none; border: none;
+    line-height: 1;
+  }
+  .modal-video {
+    width: 80vw; max-width: 960px;
+    aspect-ratio: 16/9;
+    background: #000;
+  }
+  .modal-video iframe { width: 100%; height: 100%; border: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero-content { padding: 0 1.5rem; max-width: 100%; }
+    .stats-strip { padding: 1rem 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .fleet-grid { grid-template-columns: 1fr; }
+    .fleet-card.featured { grid-column: span 1; }
+    .eco-layout { grid-template-columns: 1fr; }
+    .scenarios-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .contact { padding: 4rem 1.5rem; }
+    .cta-section { padding: 4rem 1.5rem; }
+    .testimonials { padding: 4rem 1.5rem; }
+  }
+
+  .jaini-heading {
+    font-family: "Jaini Purva", serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Contact page */
+
+.contact-heading{
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 1.5rem;
+    line-height: 1;
+    color: var(--white);
+}
+
+.contact-heading span{
+    color: var(--gold);
+}
+
+
+
+/* HEADER */
+.header{
+text-align:center;
+margin-bottom:30px;
+}
+
+.header h1{
+font-size:36px;
+}
+
+.header p{
+opacity:0.7;
+margin-top:5px;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+max-width:1100px;
+margin:auto;
+}
+
+/* CARD */
+.card{
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.15);
+padding:20px;
+border-radius:15px;
+backdrop-filter:blur(10px);
+transition:0.3s;
+position:relative;
+overflow:hidden;
+}
+
+.card:hover{
+transform:translateY(-8px);
+border-color:#00ffcc;
+box-shadow:0 0 20px rgba(0,255,204,0.3);
+}
+
+/* city */
+.city{
+font-size:18px;
+margin-bottom:10px;
+}
+
+/* price */
+.price{
+font-size:28px;
+color:#00ffcc;
+font-weight:bold;
+}
+
+/* label */
+.label{
+font-size:12px;
+opacity:0.7;
+margin-top:5px;
+}
+
+/* loader */
+.loader{
+text-align:center;
+margin-top:30px;
+opacity:0.7;
+}
+
+/* icon */
+.card::before{
+content:"⛽";
+position:absolute;
+right:10px;
+top:10px;
+font-size:40px;
+opacity:0.05;
+}
+
+
+/* SECTION */
+.scenarios{
+max-width:1200px;
+margin:auto;
+text-align:center;
+}
+
+.section-tag{
+display:inline-block;
+padding:6px 14px;
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.2);
+border-radius:20px;
+font-size:12px;
+letter-spacing:2px;
+margin-bottom:10px;
+}
+
+h2{
+font-size:40px;
+margin-bottom:30px;
+}
+
+.gold{
+color:#00ffcc;
+}
+
+/* GRID */
+.scenarios-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+/* CARD */
+.scenario-card{
+position:relative;
+background:linear-gradient(
+135deg,
+rgba(255,255,255,0.08),
+rgba(255,255,255,0.03)
+);
+border:1px solid rgba(255,255,255,0.15);
+padding:25px;
+border-radius:18px;
+backdrop-filter:blur(15px);
+transition:all .4s ease;
+overflow:hidden;
+cursor:pointer;
+}
+
+/* Glow Effect */
+.scenario-card::after{
+content:"";
+position:absolute;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+background:radial-gradient(
+circle,
+rgba(0,255,204,0.15),
+transparent 60%
+);
+opacity:0;
+transition:.5s;
+pointer-events:none;
+}
+
+.scenario-card:hover::after{
+opacity:1;
+}
+
+.scenario-card:hover{
+transform:translateY(-10px) scale(1.02);
+border-color:#00ffcc;
+box-shadow:
+0 0 20px rgba(0,255,204,0.25),
+0 0 40px rgba(0,255,204,0.15);
+}
+
+/* Number Background */
+.scenario-card::before{
+content:attr(data-num);
+position:absolute;
+top:8px;
+right:15px;
+font-size:70px;
+font-weight:900;
+color:rgba(255,255,255,0.04);
+}
+
+/* Icon */
+.scenario-icon{
+font-size:34px;
+margin-bottom:12px;
+filter:drop-shadow(0 0 10px rgba(0,255,204,.5));
+}
+
+/* Title */
+.scenario-card h3{
+font-size:20px;
+margin-bottom:10px;
+font-weight:700;
+}
+
+/* Description */
+.scenario-card p{
+font-size:14px;
+line-height:1.6;
+opacity:.8;
+margin-bottom:18px;
+}
+
+/* Button */
+.scenario-link{
+display:inline-block;
+padding:10px 18px;
+background:linear-gradient(45deg,#00ffcc,#00aaff);
+color:#000;
+text-decoration:none;
+border-radius:10px;
+font-weight:700;
+transition:.3s;
+}
+
+.scenario-link:hover{
+transform:translateY(-2px);
+box-shadow:0 0 20px rgba(0,255,204,.4);
+}
+
+
+
+
+
+---insta,youtub 
+
+
+/* =========================
+   RESET
+========================= */
+
+
+/* Animated Background */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background-image:
+radial-gradient(white 1px,transparent 1px);
+background-size:60px 60px;
+opacity:.08;
+animation:stars 20s linear infinite;
+pointer-events:none;
+}
+
+@keyframes stars{
+from{transform:translateY(0);}
+to{transform:translateY(60px);}
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:70px;
+flex-wrap:wrap;
+perspective:1200px;
+padding:50px 20px;
+}
+
+/* =========================
+   CUBE
+========================= */
+.cube{
+position:relative;
+width:90px;
+height:90px;
+transform-style:preserve-3d;
+cursor:pointer;
+animation:
+floatCube 4s ease-in-out infinite,
+rotateCube 12s linear infinite;
+}
+
+.cube:nth-child(2){
+animation-delay:.5s;
+}
+
+.cube:nth-child(3){
+animation-delay:1s;
+}
+
+.cube:nth-child(4){
+animation-delay:1.5s;
+}
+
+.face{
+position:absolute;
+width:90px;
+height:90px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:42px;
+color:#fff;
+border:1px solid rgba(255,255,255,.15);
+}
+
+.front{
+transform:translateZ(45px);
+}
+
+.top{
+transform:rotateX(90deg) translateZ(45px);
+}
+
+.right{
+transform:rotateY(90deg) translateZ(45px);
+}
+
+/* Floating */
+@keyframes floatCube{
+0%,100%{
+transform:translateY(0);
+}
+50%{
+transform:translateY(-15px);
+}
+}
+
+/* Rotation */
+@keyframes rotateCube{
+0%{
+transform:rotateX(-25deg) rotateY(0deg);
+}
+100%{
+transform:rotateX(-25deg) rotateY(360deg);
+}
+}
+
+/* Shadow */
+.cube::after{
+content:'';
+position:absolute;
+width:100px;
+height:22px;
+background:rgba(0,0,0,.45);
+border-radius:50%;
+bottom:-38px;
+left:-5px;
+filter:blur(14px);
+}
+
+/* Shine */
+.cube::before{
+content:'';
+position:absolute;
+width:220%;
+height:220%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,.25),
+transparent
+);
+top:-120%;
+left:-150%;
+animation:shine 3s linear infinite;
+pointer-events:none;
+}
+
+@keyframes shine{
+0%{
+left:-150%;
+}
+100%{
+left:150%;
+}
+}
+
+/* =========================
+   LABEL
+========================= */
+.label{
+position:absolute;
+top:125px;
+left:50%;
+transform:translateX(-50%);
+padding:10px 18px;
+border-radius:14px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+text-align:center;
+white-space:nowrap;
+transition:.4s;
+}
+
+.platform{
+display:block;
+font-size:16px;
+font-weight:700;
+margin-bottom:4px;
+}
+
+.handle{
+font-size:12px;
+color:#ddd;
+}
+
+.cube:hover .label{
+transform:translateX(-50%) scale(1.08);
+}
+
+/* =========================
+   INSTAGRAM
+========================= */
+.instagram .front{
+background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+}
+.instagram .top{
+background:#ff6b6b;
+}
+.instagram .right{
+background:#833ab4;
+}
+.instagram .platform{
+color:#fd1d1d;
+text-shadow:0 0 10px #fd1d1d;
+}
+.instagram:hover{
+filter:drop-shadow(0 0 25px #fd1d1d);
+}
+
+/* =========================
+   YOUTUBE
+========================= */
+.youtube .front{
+background:#ff0000;
+}
+.youtube .top{
+background:#ff4040;
+}
+.youtube .right{
+background:#b30000;
+}
+.youtube .platform{
+color:#ff0000;
+text-shadow:0 0 10px #ff0000;
+}
+.youtube:hover{
+filter:drop-shadow(0 0 25px #ff0000);
+}
+
+/* =========================
+   FACEBOOK
+========================= */
+.facebook .front{
+background:#1877f2;
+}
+.facebook .top{
+background:#4f9cff;
+}
+.facebook .right{
+background:#1155b0;
+}
+.facebook .platform{
+color:#1877f2;
+text-shadow:0 0 10px #1877f2;
+}
+.facebook:hover{
+filter:drop-shadow(0 0 25px #1877f2);
+}
+
+
+.gmail .front{
+background:linear-gradient(
+135deg,
+#ea4335 0%,
+#ea4335 25%,
+#fbbc05 25%,
+#fbbc05 50%,
+#34a853 50%,
+#34a853 75%,
+#4285f4 75%,
+#4285f4 100%
+);
+}
+
+.gmail .top{
+background:#34a853;
+}
+
+.gmail .right{
+background:#4285f4;
+}
+
+.gmail .platform{
+color:#ea4335;
+text-shadow:0 0 10px #ea4335;
+}
+
+.gmail:hover{
+filter:drop-shadow(0 0 25px #ea4335);
+}
+
+
+
+.maps .front{
+background:linear-gradient(135deg,#4285f4,#34a853,#fbbc05,#ea4335);
+}
+
+.maps .top{
+background:#34a853;
+}
+
+.maps .right{
+background:#4285f4;
+}
+
+.maps .platform{
+color:#34a853;
+text-shadow:0 0 10px #34a853;
+}
+
+.maps:hover{
+filter:drop-shadow(0 0 25px #34a853);
+}
+
+/* Map icon */
+.maps .front i{
+color:#fff;
+font-size:40px;
+}
+
+/* =========================
+   GITHUB
+========================= */
+.github .front{
+background:#222;
+}
+.github .top{
+background:#333;
+}
+.github .right{
+background:#111;
+}
+.github .platform{
+color:#fff;
+text-shadow:0 0 10px #fff;
+}
+.github:hover{
+filter:drop-shadow(0 0 25px #fff);
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media(max-width:768px){
+
+.container{
+gap:50px;
+}
+
+.label{
+top:120px;
+padding:8px 14px;
+}
+
+.platform{
+font-size:14px;
+}
+
+.handle{
+font-size:11px;
+}
+
+}
+
+
+/* =========================
+   MOBILE / CALL
+========================= */
+
+.mobile .front{
+background:linear-gradient(135deg,#00c853,#00e676,#69f0ae);
+}
+
+.mobile .top{
+background:#00e676;
+}
+
+.mobile .right{
+background:#00c853;
+}
+
+.mobile .platform{
+color:#00e676;
+text-shadow:0 0 10px #00e676;
+}
+
+.mobile:hover{
+filter:drop-shadow(0 0 25px #00e676);
+}
+
+.mobile .front i{
+color:#fff;
+font-size:40px;
+}
+
+/* =========================
+   WHATSAPP
+========================= */
+.whatsapp .front{
+background:#25D366;
+}
+
+.whatsapp .top{
+background:#4ee784;
+}
+
+.whatsapp .right{
+background:#128C7E;
+}
+
+.whatsapp .platform{
+color:#25D366;
+text-shadow:
+0 0 10px #25D366,
+0 0 20px #25D366,
+0 0 35px #25D366;
+}
+
+.whatsapp:hover{
+filter:
+drop-shadow(0 0 25px #25D366)
+drop-shadow(0 0 45px #25D366);
+}
+
+
+
+
+
+------------------------------------------------------------------------------
+
+/* =========================
+   ONLY SERVICES SECTION
+========================= */
+
+#scenarios .scenarios-grid .scenario-card:hover {
+    transform: translateY(-6px);
+}
+
+/* individual colors */
+#scenarios .scenario-card[data-num="01"]:hover {
+    border-color: #00ffcc;
+    box-shadow: 0 0 25px rgba(0, 255, 204, .5);
+}
+
+#scenarios .scenario-card[data-num="02"]:hover {
+    border-color: #ffd700;
+    box-shadow: 0 0 25px rgba(255, 215, 0, .5);
+}
+
+#scenarios .scenario-card[data-num="03"]:hover {
+    border-color: #ff9800;
+    box-shadow: 0 0 25px rgba(255, 152, 0, .5);
+}
+
+#scenarios .scenario-card[data-num="04"]:hover {
+    border-color: #ff5252;
+    box-shadow: 0 0 25px rgba(255, 82, 82, .5);
+}
+
+#scenarios .scenario-card[data-num="05"]:hover {
+    border-color: #b388ff;
+    box-shadow: 0 0 25px rgba(179, 136, 255, .5);
+}
+
+#scenarios .scenario-card[data-num="06"]:hover {
+    border-color: #4caf50;
+    box-shadow: 0 0 25px rgba(76, 175, 80, .5);
+}
+
+#scenarios .scenario-card[data-num="07"]:hover {
+    border-color: #2196f3;
+    box-shadow: 0 0 25px rgba(33, 150, 243, .5);
+}
+
+#scenarios .scenario-card[data-num="08"]:hover {
+    border-color: #ff4081;
+    box-shadow: 0 0 25px rgba(255, 64, 129, .5);
+}
+--------------------------------------------------------------------------------
+
+/* FUEL PRICE SECTION - UNIQUE HOVER STYLE */
+
+#fuelGrid .scenario-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* subtle animated fuel glow background */
+#fuelGrid .scenario-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, #ff6a00, #ffcc00, #00e5ff);
+    opacity: 0;
+    transition: 0.4s ease;
+    z-index: 0;
+}
+
+/* keep content above glow */
+#fuelGrid .scenario-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* HOVER EFFECT */
+#fuelGrid .scenario-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    border-color: #ffcc00;
+    box-shadow: 0 0 30px rgba(255, 204, 0, 0.4);
+}
+
+/* show animated glow on hover */
+#fuelGrid .scenario-card:hover::before {
+    opacity: 0.15;
+}
+
+/* icon pulse effect */
+#fuelGrid .scenario-card:hover .scenario-icon {
+    transform: scale(1.2) rotate(5deg);
+    transition: 0.3s ease;
+}
+
+/* price highlight effect (optional if inside <a>) */
+#fuelGrid .scenario-card:hover .scenario-link {
+    background: linear-gradient(90deg, #ff6a00, #ffcc00);
+    color: #000;
+    font-weight: bold;
+}
+
+---------------------------------------------------------------------
+
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="videoModal">
+  <button class="modal-close" onclick="closeModal()">✕</button>
+  <div class="modal-video">
+    <iframe id="modalFrame" src="" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a href="#" class="logo">MAHESHWARI ERTHMOVERS<span>JCB</span></a>
+  <ul class="nav-links">
+    <li><a href="#fleet">home</a></li>
+    <li><a href="#eco">about</a></li>
+    <li><a href="#scenarios">Rental Price</a></li>
+    <li><a href="#process">Working</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get a Inquery</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge fade-up">🌿 Certified Eco Expert Partner</div>
+    <h1 class="fade-up delay-1">POWER<br><span class="gold">THE</span><br>EARTH/Machine</h1>
+    <p class="hero-sub fade-up delay-2">Premium JCB machinery rental with zero-emission options. Built for professionals who demand performance — and care about the planet.</p>
+    <div class="hero-actions fade-up delay-3">
+      <a href="#fleet" class="btn-primary">Explore Fleet</a>
+      <a href="#" class="btn-outline" onclick="openModal(); return false;">▶ Watch in Action</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- Stats Strip -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num">240+</div>
+    <div class="stat-label">Machines Available</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <div class="stat-num">18</div>
+    <div class="stat-label">Years Experience</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <div class="stat-num">4,800+</div>
+    <div class="stat-label">Projects Completed</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <div class="stat-num">90%</div>
+    <div class="stat-label">CO₂ Reduction Fleet</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <div class="stat-num">24/7</div>
+    <div class="stat-label">Support Available</div>
+  </div>
+</div>
+
+<!-- Fleet Section -->
+<section class="fleet" id="fleet">
+  <div class="fleet-header">
+    <div>
+      <span class="section-tag">We have JCB and Tractor's also</span>
+      <h2>MACHINES Work<br>FOR <span class="gold">Every Work/farmer Work/Commercial Work</span></h2>
+    </div>
+    <p class="fleet-desc">Quality JCB and tractor rental services for excavation, loading, land leveling, road work, farming, and construction projects.</p>
+  </div>
+
+  <div class="fleet-grid">
+    <!-- Featured Card -->
+    <div class="fleet-card featured">
+      <img src="c:\Users\santo\Downloads\jcb ima.jpeg" alt="JCB 220X Excavator" loading="lazy">
+      <div class="fleet-card-overlay">
+        <div class="eco-badge"> With New Eco Expert Technology </div>
+     <div class="fleet-tag">Premium Equipment</div>
+<div class="fleet-name">JCB & Tractor Rental</div>
+<div class="fleet-spec"> Soil Transport • Farm Work • Material Hauling/Reliable Machines for Construction, Agriculture & Earthmoving Projects/Soil Transport • Farm Work • Material Hauling</div>
+<div class="fleet-price"><strong>24/7 Booking</strong> — Experienced Operators Available</div>
+    </div>
+
+    <!-- Card 2 -->
+   <div class="fleet-card">
+  <img src="c:\Users\santo\Downloads\jcb ima.jpeg" alt="JCB Rental" loading="lazy">
+  <div class="fleet-card-overlay">
+    <div class="fleet-tag">Premium Rental Service</div>
+    <div class="fleet-name">JCB & Tractor Services</div>
+    <div class="fleet-spec">Construction • Agriculture • Earthmoving • Site Development</div>
+    <div class="fleet-price"><strong>Call for Best Price</strong></div>
+  </div>
+</div>
+
+    <!-- Card 3 -->
+    <div class="fleet-card">
+  <img src="your-jcb-image.jpg" alt="JCB Excavator" loading="lazy">
+  <div class="fleet-card-overlay">
+    <div class="eco-badge">Operator Available</div>
+    <div class="fleet-tag">JCB Rental</div>
+    <div class="fleet-name">JCB Excavator</div>
+    <div class="fleet-spec">Excavation • Foundation Work • Loading • Land Levelling</div>
+    <div class="fleet-price"><strong>Call for Price</strong></div>
+  </div>
+</div>
+
+    <!-- Card 4 -->
+  <div class="fleet-card">
+  <img src="your-jcb-tractor-image.jpg" alt="JCB & Tractor Rental" loading="lazy">
+  <div class="fleet-card-overlay">
+    <div class="fleet-tag">Premium Rental Service</div>
+    <div class="fleet-name">JCB & Tractor Rental</div>
+    <div class="fleet-spec">Construction • Agriculture • Earthmoving • Site Preparation</div>
+    <div class="fleet-price"><strong>Call Now for Best Rates</strong></div>
+  </div>
+</div>
+
+    <!-- Card 5 -->
+    <div class="fleet-card">
+     <div class="fleet-card">
+  <img src="your-service-image.jpg" alt="Agricultural Services" loading="lazy">
+  <div class="fleet-card-overlay">
+    <div class="eco-badge">Fast Response</div>
+    <div class="fleet-tag">Agricultural Services</div>
+    <div class="fleet-name">Farm & Land Preparation</div>
+    <div class="fleet-spec">Ploughing • Land Levelling • Soil Transport • Field Development</div>
+    <div class="fleet-price"><strong>Contact for Details</strong></div>
+  </div>
+</div>
+</section>
+
+<!-- Video Section -->
+<div class="video-section">
+  <div class="video-fallback"></div>
+  <div class="video-content">
+    <span class="section-tag" style="color:var(--gold-light)">Trusted Rental Services</span>
+    <h2>BUILDING THE FUTURE<br><span class="gold">ONE PROJECT AT A TIME</span></h2>
+    <p style="color:rgba(248,244,236,0.7); font-size:0.95rem; max-width:440px; margin:0 auto;">
+      From construction sites to agricultural fields, our JCB and tractor rental services deliver the power, performance, and reliability you need.
+    </p>
+    <div class="play-btn" onclick="openModal()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <polygon points="5,3 19,12 5,21" fill="currentColor" style="color:var(--gold)"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- Eco Expert Section -->
+<section class="eco" id="eco">
+  <div class="eco-layout">
+    <div class="eco-visual">
+      <img class="eco-main-img" src="c:\Users\santo\Downloads\jcb-3.jpeg" alt="Eco Construction Site" loading="lazy">
+      <img class="eco-accent-img" src="c:\Users\santo\Downloads\jcb-4.jpeg" alt="Electric Tech" loading="lazy">
+<div class="eco-metrics">
+  <div class="eco-metric">
+    <div class="eco-metric-num">24×7</div>
+    <div class="eco-metric-label">Quick Response</div>
+  </div>
+
+  <div class="eco-metric">
+    <div class="eco-metric-num">500+</div>
+    <div class="eco-metric-label">Happy Customers</div>
+  </div>
+
+  <div class="eco-metric">
+    <div class="eco-metric-num">1000+</div>
+    <div class="eco-metric-label">Hours Worked</div>
+  </div>
+
+  <div class="eco-metric">
+    <div class="eco-metric-num">100%</div>
+    <div class="eco-metric-label">Reliable Equipment</div>
+  </div>
+</div>
+    </div>
+
+    <div class="eco-text">
+  <span class="section-tag">🚜 Trusted Rental Services</span>
+
+  <h2>TRUSTED JCB &<br>
+  <span class="gold">TRACTOR</span><br>
+  RENTAL SERVICES</h2>
+
+  <p style="color:var(--steel); font-size:0.95rem; line-height:1.8; margin-top:1.2rem;">
+    We provide dependable JCB and tractor rental services for construction, excavation, land development, road work, and agricultural projects.
+  </p>
+
+  <ul class="eco-points">
+    <li>JCB Excavators for excavation and loading work</li>
+    <li>Tractors with trolley for transportation and farm work</li>
+    <li>Experienced operators available</li>
+    <li>24×7 service support</li>
+    <li>Well-maintained equipment</li>
+    <li>Affordable rental rates</li>
+  </ul>
+
+  <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <a href="#contact" class="btn-primary">Book Now</a>
+    <a href="#fleet" class="btn-outline" style="padding:0.9rem 1.8rem">Our Services</a>
+  </div>
+</div>
+</section>
+
+<!-- Scenarios -->
+<section class="scenarios" id="scenarios">
+  <span class="section-tag">Our Services</span>
+  <h2>WHERE WE<br><span class="gold">WORK</span></h2>
+
+  <div class="scenarios-grid">
+
+    <div class="scenario-card" data-num="01">
+      <div class="scenario-icon">🏗️</div>
+      <h3>Construction Projects</h3>
+      <p>Excavation, foundation digging, site clearing, earthmoving, and material handling for construction projects.</p>
+      <a href="#contact" class="scenario-link">Get Quote</a>
+    </div>
+
+    <div class="scenario-card" data-num="02">
+      <div class="scenario-icon">🚜</div>
+      <h3>Agricultural Work</h3>
+      <p>Land preparation, field levelling, soil transportation, farm development, and agricultural support services.</p>
+      <a href="#contact" class="scenario-link">Get Quote</a>
+    </div>
+
+    <div class="scenario-card" data-num="03">
+      <div class="scenario-icon">🛣️</div>
+      <h3>Road Development</h3>
+      <p>Road construction, site grading, drainage work, trenching, and infrastructure development projects.</p>
+      <a href="#contact" class="scenario-link">Get Quote</a>
+    </div>
+
+    <div class="scenario-card" data-num="04">
+      <div class="scenario-icon">🏡</div>
+      <h3>Land Development</h3>
+      <p>Plot cleaning, land levelling, site preparation, landscaping, and residential development support.</p>
+      <a href="#contact" class="scenario-link">Get Quote</a>
+    </div>
+
+    <div class="scenario-card" data-num="05">
+      <div class="scenario-icon">🚚</div>
+      <h3>Material Transportation</h3>
+      <p>Soil, sand, gravel, stone, and construction material transportation using tractor and trolley services.</p>
+      <a href="#contact" class="scenario-link">Get Quote</a>
+    </div>
+
+    <div class="scenario-card" data-num="06">
+      <div class="scenario-icon">⏰</div>
+      <h3>24×7 Equipment Rental</h3>
+      <p>Reliable JCB and tractor rental services with experienced operators available for urgent requirements.</p>
+      <a href="#contact" class="scenario-link">Get Quote</a>
+    </div>
+
+    <div class="scenario-card" data-num="07">
+  <div class="scenario-icon">🚜</div>
+  <h3>Tractor Trolley Service</h3>
+  <p>Efficient transportation of soil, sand, construction materials, and agricultural goods at affordable rates.</p>
+  <a href="#contact" class="scenario-link">Get Quote</a>
+</div>
+
+<div class="scenario-card" data-num="08">
+  <div class="scenario-icon">⛏️</div>
+  <h3>Excavation & Earthmoving</h3>
+  <p>Heavy-duty excavation, earthmoving, and land clearing services with skilled operators and modern equipment.</p>
+  <a href="#contact" class="scenario-link">Get Quote</a>
+</div>
+
+  </div>
+</section>
+
+
+
+<!-- Price List -->
+<section class="scenarios" id="pricing">
+  <span class="section-tag">Price List</span>
+  <h2>OUR<br><span class="gold">RATES</span></h2>
+
+  <div class="scenarios-grid">
+
+    <div class="scenario-card" data-num="01">
+      <div class="scenario-icon">⏱️</div>
+      <h3>JCB Per Hour</h3>
+      <p>JCB rental service with experienced operator.</p>
+      <a href="#contact" class="scenario-link">₹1200 / Hour</a>
+    </div>
+
+    <div class="scenario-card" data-num="02">
+      <div class="scenario-icon">🪨</div>
+      <h3>Gravel Loading</h3>
+      <p>Loading and handling gravel materials.</p>
+      <a href="#contact" class="scenario-link">₹400</a>
+    </div>
+
+    <div class="scenario-card" data-num="03">
+      <div class="scenario-icon">🌾</div>
+      <h3>Manure Work</h3>
+      <p>Loading and transportation support for manure.</p>
+      <a href="#contact" class="scenario-link">₹400</a>
+    </div>
+
+    <div class="scenario-card" data-num="04">
+      <div class="scenario-icon">🏔️</div>
+      <h3>Murum Work</h3>
+      <p>Murum loading and site development work.</p>
+      <a href="#contact" class="scenario-link">₹250</a>
+    </div>
+
+    <div class="scenario-card" data-num="05">
+      <div class="scenario-icon">🌱</div>
+      <h3>Soil Work</h3>
+      <p>Soil excavation, loading and transportation.</p>
+      <a href="#contact" class="scenario-link">₹200</a>
+    </div>
+
+    <div class="scenario-card" data-num="06">
+      <div class="scenario-icon">💧</div>
+      <h3>Tank Installation</h3>
+      <p>Tank pit excavation and installation support.</p>
+      <a href="#contact" class="scenario-link">₹1500</a>
+    </div>
+
+    <div class="scenario-card" data-num="07">
+      <div class="scenario-icon">🐄</div>
+      <h3>Animal Trench</h3>
+      <p>Animal trench and farm excavation work.</p>
+      <a href="#contact" class="scenario-link">₹1500</a>
+    </div>
+
+    <div class="scenario-card" data-num="08">
+      <div class="scenario-icon">📞</div>
+      <h3>Contact for Details</h3>
+      <p>Special projects, long-term rentals, and custom requirements.</p>
+      <a href="#contact" class="scenario-link">Call Mahesh</a>
+    </div>
+
+  </div>
+
+  -- diesel petrol price
+
+  <section class="scenarios">
+
+<span class="section-tag">Fuel Price</span>
+
+<h2>MAHARASHTRA<br><span class="gold">LIVE DIESEL RATES</span></h2>
+
+<div class="scenarios-grid" id="fuelGrid">
+
+<!-- JS DATA -->
+
+</div>
+
+</section>
+<section>
+
+
+
+<div class="container">
+<!-- Instagram -->
+<a href="https://www.instagram.com/santosh jakune/" target="_blank" style="text-decoration:none; color:inherit;">
+  <div class="cube instagram">
+    <div class="face front">
+      <i class="fab fa-instagram"></i>
+    </div>
+    <div class="face top"></div>
+    <div class="face right"></div>
+
+    <div class="label">
+      <span class="platform">Instagram</span>
+      <span class="handle">@your_instagram</span>
+    </div>
+  </div>
+</a>
+
+  <!-- YouTube -->
+<a href="https://youtube.com/@santoshjakune3740?si=W-ruCM8u2lCc1E3C" target="_blank" style="text-decoration:none; color:inherit;">
+  <div class="cube youtube">
+    <div class="face front">
+      <i class="fab fa-youtube"></i>
+    </div>
+    <div class="face top"></div>
+    <div class="face right"></div>
+
+    <div class="label">
+      <span class="platform">YouTube</span>
+      <span class="handle">Santosh JCB Services</span>
+    </div>
+  </div>
+</a>
+
+  <!-- Facebook -->
+<a href="https://www.facebook.com/santoshjcbservices" target="_blank" style="text-decoration:none; color:inherit;">
+  <div class="cube facebook">
+    <div class="face front">
+      <i class="fab fa-facebook-f"></i>
+    </div>
+    <div class="face top"></div>
+    <div class="face right"></div>
+
+    <div class="label">
+      <span class="platform">Facebook</span>
+      <span class="handle">Official Page</span>
+    </div>
+  </div>
+</a>
+
+<!-- Gmail -->
+<a href="mailto:bhimashankarjakune@gmail.com" target="_blank" style="text-decoration:none; color:inherit;">
+  <div class="cube gmail">
+    <div class="face front">
+      <i class="fas fa-envelope"></i>
+    </div>
+    <div class="face top"></div>
+    <div class="face right"></div>
+
+    <div class="label">
+      <span class="platform">Gmail</span>
+      <span class="handle">Send Email</span>
+    </div>
+  </div>
+</a>
+
+<!-- Google Maps -->
+<a href="https://maps.google.com/?q=Santosh+JCB+Services" target="_blank" style="text-decoration:none; color:inherit;">
+  <div class="cube maps">
+    <div class="face front">
+      <i class="fas fa-map-marker-alt"></i>
+    </div>
+    <div class="face top"></div>
+    <div class="face right"></div>
+
+    <div class="label">
+      <span class="platform">Google Maps</span>
+      <span class="handle">View Location</span>
+    </div>
+  </div>
+</a>
+
+  <!-- GitHub -->
+<a href="https://github.com/santoshjakune" target="_blank" style="text-decoration:none; color:inherit;">
+  <div class="cube github">
+    <div class="face front">
+      <i class="fab fa-github"></i>
+    </div>
+    <div class="face top"></div>
+    <div class="face right"></div>
+
+    <div class="label">
+      <span class="platform">GitHub</span>
+      <span class="handle">My Portfolio</span>
+    </div>
+  </div>
+</a>
+
+<!-- Call Us -->
+<a href="tel:+917410153390" style="text-decoration:none; color:inherit;">
+  <div class="cube mobile">
+    <div class="face front">
+      <i class="fas fa-phone-alt"></i>
+    </div>
+    <div class="face top"></div>
+    <div class="face right"></div>
+
+    <div class="label">
+      <span class="platform">Call Us</span>
+      <span class="handle">+91 75591 98564</span>
+    </div>
+  </div>
+</a>
+
+  <!-- WhatsApp -->
+<a href="https://wa.me/7410153390" target="_blank" style="text-decoration:none;color:inherit;">
+  <div class="cube whatsapp">
+    <div class="face front">
+      <i class="fab fa-whatsapp"></i>
+    </div>
+    <div class="face top"></div>
+    <div class="face right"></div>
+
+    <div class="label">
+      <span class="platform">WhatsApp</span>
+      <span class="handle">7559198564</span>
+    </div>
+  </div>
+</a>
+
+</div>
+</section>
+
+<!-- Process -->
+<section class="process" id="process">
+  <div style="text-align:center; margin-bottom:1rem;">
+    <span class="section-tag">How It Works</span>
+    <!-- <h2>GET STARTED IN<br><span class="gold">4 EASY STEPS</span></h2> -->
+     <!-- <h2>RENT YOUR JCB &<br><span class="gold">TRACTOR TODAY</span></h2> -->
+
+<h2 class="jaini-heading">
+    GET STARTED IN<br>
+    <span class="gold">4 EASY STEPS</span>
+</h2>
+
+</div>
+
+<div class="process-steps">
+
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Contact Us</div>
+      <p class="step-desc">
+        Call us or send a WhatsApp message with your project requirements and location.
+      </p>
+    </div>
+
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Get a Quote</div>
+      <p class="step-desc">
+        Receive a quick and transparent quote based on the work, machine, and duration required.
+      </p>
+    </div>
+
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Equipment Arrives</div>
+      <p class="step-desc">
+        Our JCB or tractor arrives at your site with an experienced operator, ready to start work.
+      </p>
+    </div>
+
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div class="step-title">Project Completed</div>
+      <p class="step-desc">
+        We ensure efficient work completion with reliable equipment and professional service.
+      </p>
+    </div>
+
+</div>
+</section>
+<!-- Testimonials -->
+<div class="testimonials">
+  <span class="section-tag" style="display:block; text-align:center;">Customer Reviews</span>
+
+  <h2 class="jaini-heading" style="text-align:center; margin-bottom:0;">
+    WHAT OUR<br>
+    <span class="gold">CUSTOMERS SAY</span>
+  </h2>
+
+  <div class="testi-grid">
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">
+        "Excellent JCB service. The machine arrived on time and completed our excavation work efficiently. Highly recommended."
+      </p>
+      <div class="testi-author">
+        <div class="author-avatar">RK</div>
+        <div>
+          <div class="author-name">Ramesh Kumar</div>
+          <div class="author-title">Construction Contractor</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">
+        "We hired a tractor with trolley for soil transportation. The service was reliable, affordable, and completed on schedule."
+      </p>
+      <div class="testi-author">
+        <div class="author-avatar">SP</div>
+        <div>
+          <div class="author-name">Suresh Patil</div>
+          <div class="author-title">Farmer</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">
+        "Professional operators and well-maintained equipment. We regularly use their JCB services for land development projects."
+      </p>
+      <div class="testi-author">
+        <div class="author-avatar">AK</div>
+        <div>
+          <div class="author-name">Anil Kumar</div>
+          <div class="author-title">Site Supervisor</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <span class="section-tag" style="position:relative;">Trusted Equipment Rental</span>
+
+  <h2 style="position:relative;">
+    LET'S BUILD<br>
+    <span class="gold">TOGETHER</span>
+  </h2>
+
+  <p>
+    Professional JCB and tractor rental services with experienced operators. Available for projects of all sizes.
+  </p>
+
+  <div class="cta-actions">
+    <a href="#contact" class="btn-primary">Book Now</a>
+    <a href="tel:+917559198564" class="btn-outline">📞 Mahesh: +91 74101 53390</a>
+  </div>
+</div>
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="contact-grid">
+
+    <!-- Contact Information -->
+    <div class="contact-info">
+      <span class="section-tag">Get in Touch</span>
+
+      <h3>LET'S TALK<br>YOUR PROJECT</h3>
+
+      <p>
+        Need a JCB or Tractor for your construction, excavation, land development,
+        transportation, or agricultural work? Contact us today for quick booking
+        and competitive rental rates.
+      </p>
+
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📍</div>
+        <span>Maharastra, India</span>
+      </div>
+
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📞</div>
+        <span>Mahesh - +91 74101 0153390</span>
+      </div>
+
+      <div class="contact-detail">
+        <div class="contact-detail-icon">✉️</div>
+        <span>bhimashankarjakune@gmail.com</span>
+      </div>
+
+      <div class="contact-detail">
+        <div class="contact-detail-icon">🚜</div>
+        <span>JCB & Tractor Rental Available 24×7</span>
+      </div>
+
+      <div style="margin-top:2.5rem; padding:1.5rem; border:1px solid rgba(201,168,76,0.2); background:rgba(201,168,76,0.04);">
+        <div style="font-size:0.65rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:0.5rem;">
+          Our Services
+        </div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; font-size:0.7rem; color:var(--gold);">
+          <span style="border:1px solid rgba(201,168,76,0.3); padding:0.25rem 0.6rem;">JCB Excavation</span>
+          <span style="border:1px solid rgba(201,168,76,0.3); padding:0.25rem 0.6rem;">Land Levelling</span>
+          <span style="border:1px solid rgba(201,168,76,0.3); padding:0.25rem 0.6rem;">Road Work</span>
+          <span style="border:1px solid rgba(201,168,76,0.3); padding:0.25rem 0.6rem;">Tractor Rental</span>
+          <span style="border:1px solid rgba(201,168,76,0.3); padding:0.25rem 0.6rem;">Material Transport</span>
+        </div>
+      </div>
+    </div>
+<!-- Contact Form -->
+<div>
+
+  <!-- Modern Heading -->
+  <h2 class="contact-heading">
+    CONTACT US FOR A <span>QUOTE</span>
+</h2>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>First Name</label>
+      <input type="text" placeholder="First Name">
+    </div>
+
+    <div class="form-group">
+      <label>Last Name</label>
+      <input type="text" placeholder="Last Name">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Village / Company Name</label>
+    <input type="text" placeholder="Enter Village or Company Name">
+  </div>
+
+  <div class="form-group">
+    <label>Email Address</label>
+    <input type="email" placeholder="your@email.com">
+  </div>
+
+  <div class="form-group">
+    <label>Phone Number</label>
+    <input type="tel" placeholder="+91 XXXXX XXXXX">
+  </div>
+
+  <div class="form-row">
+
+    <div class="form-group">
+      <label>Service Required</label>
+      <select>
+        <option value="">Select Service</option>
+        <option>JCB Excavator</option>
+        <option>Tractor with Trolley</option>
+        <option>Excavation Work</option>
+        <option>Land Levelling</option>
+        <option>Road Construction</option>
+        <option>Material Transportation</option>
+        <option>Multiple Services</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Duration</label>
+      <select>
+        <option value="">Select Duration</option>
+        <option>Hourly</option>
+        <option>Half Day</option>
+        <option>Full Day</option>
+        <option>Multiple Days</option>
+        <option>Long Term Project</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="form-group">
+    <label>Project Details</label>
+    <textarea rows="4" placeholder="Describe your work, location, and requirements..."></textarea>
+  </div>
+
+  <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1.5rem;">
+    <input type="checkbox" id="operatorcheck" style="width:auto; accent-color:var(--gold);">
+    <label for="operatorcheck" style="font-size:0.8rem; color:var(--steel); text-transform:none; letter-spacing:0; margin:0;">
+      I need an experienced operator with the equipment
+    </label>
+  </div>
+
+  <button
+    class="btn-primary"
+    style="width:100%; font-size:0.85rem; padding:1rem;"
+    onclick="alert('Thank you for contacting us. We will get back to you shortly!')">
+    Send Enquiry → Get a Quick Quote
+  </button>
+
+</div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+
+  <div class="footer-brand">
+    <a href="#" class="logo">MAHESHAWARI<span style="color:var(--white)"> ERTHMOVERS</span></a>
+
+    <p class="footer-tagline">
+      Reliable JCB and Tractor Rental Services for Construction, Excavation,
+      Land Development, Road Work, and Agricultural Projects.
+    </p>
+  </div>
+
+  <div class="footer-col">
+    <h4>Equipment</h4>
+    <ul>
+      <li><a href="#">JCB Excavator</a></li>
+      <li><a href="#">Tractor</a></li>
+      <li><a href="#">Tractor with Trolley</a></li>
+      <li><a href="#">Land Levelling Equipment</a></li>
+      <li><a href="#">Construction Machinery</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-col">
+    <h4>Services</h4>
+    <ul>
+      <li><a href="#">Excavation Work</a></li>
+      <li><a href="#">Land Levelling</a></li>
+      <li><a href="#">Road Construction</a></li>
+      <li><a href="#">Material Transportation</a></li>
+      <li><a href="#">24×7 Rental Support</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-col">
+    <h4>Contact</h4>
+    <ul>
+      <li><a href="#">Mahesh</a></li>
+      <li><a href="tel:+917559198564">+91 74101 53390</a></li>
+      <li><a href="#"> Umadi,Maharastra, India</a></li>
+      <li><a href="#contact">Request a Quote</a></li>
+      <li><a href="#">Available 24×7</a></li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer-bottom">
+
+  <div class="footer-copy">
+    © 2026 Mahesh JCB & Tractor Services. All Rights Reserved.
+  </div>
+
+  <div class="footer-cert">
+    <span class="cert-badge">🚜 JCB Rental</span>
+    <span class="cert-badge">🏗️ Construction Services</span>
+    <span class="cert-badge">🌾 Agricultural Support</span>
+  </div>
+
+</div>
+</footer>
+
+<script>
+  // Custom Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.transform = `translate(${e.clientX - 6}px, ${e.clientY - 6}px)`;
+    ring.style.transform = `translate(${e.clientX - 18}px, ${e.clientY - 18}px)`;
+  });
+  document.querySelectorAll('a, button, .fleet-card, .scenario-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform += ' scale(1.5)';
+      ring.style.width = '56px';
+      ring.style.height = '56px';
+      ring.style.transform = ring.style.transform.replace('translate', 'translate');
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+    });
+  });
+
+
+  // Video Modal
+function openModal() {
+    document.getElementById('videoModal').classList.add('active');
+    document.getElementById('modalFrame').src =
+        'https://www.youtube.com/embed/mUHf_cT9BZI?autoplay=1';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('videoModal').classList.remove('active');
+    document.getElementById('modalFrame').src = '';
+    document.body.style.overflow = '';
+}
+
+document.getElementById('videoModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fleet-card, .scenario-card, .testi-card, .process-step, .eco-metric').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+
+/* 🔥 LIVE FUEL DATA (replace with real API later) */
+const fuelData = [
+{ city:"Sangli", price:95.32, icon:"⛽" },
+{ city:"Kolhapur", price:95.47, icon:"⛽" },
+{ city:"Satara", price:95.40, icon:"⛽" },
+{ city:"Solapur", price:95.60, icon:"⛽" },
+{ city:"Pune", price:95.42, icon:"⛽" },
+{ city:"Mumbai", price:94.20, icon:"⛽" },
+{ city:"Nashik", price:95.10, icon:"⛽" },
+{ city:"Nagpur", price:96.00, icon:"⛽" },
+{ city:"Ahilyanagar", price:95.55, icon:"⛽" }
+];
+
+
+/* RENDER UI */
+function renderFuel(){
+
+const grid = document.getElementById("fuelGrid");
+
+grid.innerHTML = fuelData.map((item, index) => `
+  <div class="scenario-card" data-num="${String(index+1).padStart(2,'0')}">
+    
+    <div class="scenario-icon">${item.icon}</div>
+
+    <h3>${item.city}</h3>
+
+    <p>Diesel price updated live in Maharashtra district</p>
+
+    <a class="scenario-link">₹ ${item.price} / Litre</a>
+
+  </div>
+`).join("");
+
+}
+
+renderFuel();
+</script>
+  
+</body>
+</html>
